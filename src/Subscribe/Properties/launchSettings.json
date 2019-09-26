@@ -2,7 +2,7 @@
   "profiles": {
     "Subscribe": {
       "commandName": "Project",
-      "commandLineArgs": "-verbose -subject foo -count 2 "
+      "commandLineArgs": "-verbose -subject foo -count 2"
     }
   }
 }

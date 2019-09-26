@@ -1,0 +1,1 @@
+dotnet run  -subject foo -count 2

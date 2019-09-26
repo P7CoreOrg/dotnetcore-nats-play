@@ -26,11 +26,12 @@ namespace Subscribe
         Dictionary<string, string> parsedArgs = new Dictionary<string, string>();
 
         int count = 1000000;
-        string url = Defaults.Url;
+        //string url = Defaults.Url;
+        string url = "nats://nats:4222";
         string subject = "foo";
         bool sync = false;
         int received = 0;
-        bool verbose = false;
+        bool verbose = true;
         string creds = null;
 
         public void Run(string[] args)
