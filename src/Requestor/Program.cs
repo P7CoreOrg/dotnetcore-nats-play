@@ -44,14 +44,14 @@ namespace Requestor
             {
                 opts.SetUserCredentials(creds);
             }
-
+           
             using (IConnection c = new ConnectionFactory().CreateConnection(opts))
             {
                 sw = Stopwatch.StartNew();
 
                 for (int i = 0; i < count; i++)
                 {
-                    c.Request(subject, payload);
+                    c.Request(subject, payload,1000);
                 }
                 c.Flush();
 
