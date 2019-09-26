@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Replier": {
+      "commandName": "Project",
+      "commandLineArgs": "-verbose -subject foo -count 20000 "
+    }
+  }
+}
