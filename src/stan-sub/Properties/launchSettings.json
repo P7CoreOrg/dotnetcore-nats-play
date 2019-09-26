@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "stan-sub": {
+      "commandName": "Project",
+      "commandLineArgs": "-verbose -durable my-durable -server nats://localhost:4223"
+    }
+  }
+}

@@ -1,0 +1,1 @@
+﻿dotnet run -server nats://localhost:4223 -count 10 -verbose
