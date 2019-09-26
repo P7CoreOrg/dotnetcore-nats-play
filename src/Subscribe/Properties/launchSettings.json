@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Subscribe": {
+      "commandName": "Project",
+      "commandLineArgs": "-verbose -subject foo -count 2 "
+    }
+  }
+}
