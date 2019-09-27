@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using Utils;
 
 namespace stan_sub
 {
@@ -57,6 +58,8 @@ Subscription Options:
 
         StanSubscriptionOptions sOpts = StanSubscriptionOptions.GetDefaultOptions();
         StanOptions cOpts = StanOptions.GetDefaultOptions();
+        private string queueGroup;
+        private string durableName;
 
         public void Run(string[] args)
         {
@@ -103,7 +106,7 @@ Subscription Options:
                 }
             };
 
-            using (var s = c.Subscribe(subject, sOpts, msgHandler))
+            using (var s = queueGroup == null?c.Subscribe(subject, sOpts, msgHandler): c.Subscribe(subject, queueGroup, sOpts, msgHandler))
             {
                 ev.WaitOne();
             }
@@ -121,7 +124,15 @@ Subscription Options:
         {
             if (args == null)
                 return;
-
+            
+            bool exists = false;
+            (exists, verbose) = "VERBOSE".GetEnvironmentVariable(false);
+            (exists, subject) = "SUBJECT".GetEnvironmentVariable(subject);
+            (exists, url) = "URL".GetEnvironmentVariable(url);
+            (exists, queueGroup) = "QUEUE_GROUP".GetEnvironmentVariable(queueGroup);
+            (exists, durableName) = "DURABLE_NAME".GetEnvironmentVariable(durableName);
+            (exists, unsubscribe) = "UNSUBSCRIBE".GetEnvironmentVariable(false);
+           
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i].Equals("-verbose") ||
@@ -188,6 +199,12 @@ Subscription Options:
                 Console.WriteLine("Request messages on durable subscription {0}.",
                     sOpts.DurableName);
             }
+            else if (!string.IsNullOrWhiteSpace(durableName))
+            {
+                sOpts.DurableName = durableName;
+                Console.WriteLine("Request messages on durable subscription {0}.",
+                    sOpts.DurableName);
+            }
             if (parsedArgs.ContainsKey("-unsubscribe"))
             {
                 Console.WriteLine("Will unsubscribe before exit.");
@@ -196,6 +213,14 @@ Subscription Options:
 
             if (parsedArgs.ContainsKey("-verbose"))
                 verbose = true;
+
+            Console.WriteLine($"VERBOSE={verbose}");
+            Console.WriteLine($"SUBJECT={subject}");
+            Console.WriteLine($"URL={url}");
+            Console.WriteLine($"QUEUE_GROUP={queueGroup}");
+            Console.WriteLine($"DURABLE_NAME={durableName}");
+            Console.WriteLine($"UNSUBSCRIBE={unsubscribe}");
+          
         }
 
         private void banner()

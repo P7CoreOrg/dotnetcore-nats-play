@@ -2,7 +2,7 @@
   "profiles": {
     "stan-pub": {
       "commandName": "Project",
-      "commandLineArgs": "-server nats://localhost:4223"
+      "commandLineArgs": "-server nats://localhost:4223 -subject dog -count 100"
     }
   }
 }

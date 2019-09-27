@@ -8,6 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{21
 		build.ps1 = build.ps1
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publish", "Publish\Publish.csproj", "{5FD27865-285C-487B-AD07-FA4B9B364D9A}"

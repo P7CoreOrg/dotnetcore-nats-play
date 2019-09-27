@@ -52,7 +52,7 @@ Check "docker build (application)"
 
 docker build -f ./Subscribe/Dockerfile -t dotnetcore-nats-play/subscribe .
 docker build -f ./Replier/Dockerfile -t dotnetcore-nats-play/replier .
-
+docker build -f ./stan-sub/Dockerfile -t dotnetcore-nats-play/stan-sub .
 
 
  

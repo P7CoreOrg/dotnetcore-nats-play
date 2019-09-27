@@ -3,7 +3,7 @@ NATS Playground
 
 In the solution folder run the following command
 ```
-docker-compose -f .\docker-compose.yml up --scale nats-replier=2 --scale nats-subscribe=2
+docker-compose -f .\docker-compose.yml up --scale nats-replier=2 --scale nats-subscribe=2 --scale stan-sub=2
 ```
 
 nats-replier is listening to the "dog" subject and is in a queue group, so the replier will be randomly selected to process the message.
