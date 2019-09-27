@@ -106,7 +106,10 @@ Subscription Options:
                 }
             };
 
-            using (var s = queueGroup == null?c.Subscribe(subject, sOpts, msgHandler): c.Subscribe(subject, queueGroup, sOpts, msgHandler))
+            using (var s = (
+                queueGroup == null?
+                c.Subscribe(subject, sOpts, msgHandler): 
+                c.Subscribe(subject, queueGroup, sOpts, msgHandler)))
             {
                 ev.WaitOne();
             }
@@ -132,7 +135,8 @@ Subscription Options:
             (exists, queueGroup) = "QUEUE_GROUP".GetEnvironmentVariable(queueGroup);
             (exists, durableName) = "DURABLE_NAME".GetEnvironmentVariable(durableName);
             (exists, unsubscribe) = "UNSUBSCRIBE".GetEnvironmentVariable(false);
-           
+            (exists, clientID) = "CLIENT_ID".GetEnvironmentVariable(clientID);
+
             for (int i = 0; i < args.Length; i++)
             {
                 if (args[i].Equals("-verbose") ||
@@ -220,7 +224,7 @@ Subscription Options:
             Console.WriteLine($"QUEUE_GROUP={queueGroup}");
             Console.WriteLine($"DURABLE_NAME={durableName}");
             Console.WriteLine($"UNSUBSCRIBE={unsubscribe}");
-          
+            Console.WriteLine($"CLIENT_ID={clientID}");
         }
 
         private void banner()

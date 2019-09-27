@@ -33,7 +33,7 @@ services:
       - URL=nats://nats:4222
       - QUEUE_GROUP=replier-group
 
-  stan-sub:
+  stan-sub-0:
     image: dotnetcore-nats-play/stan-sub
     depends_on:
       - nats
@@ -44,3 +44,17 @@ services:
       - URL=nats://nats-streaming:4222
       - QUEUE_GROUP=stan-sub-group
       - DURABLE_NAME=stan-sub-durable
+      - CLIENT_ID=cs-subscriber-0
+
+  stan-sub-1:
+    image: dotnetcore-nats-play/stan-sub
+    depends_on:
+      - nats
+      - nats-streaming
+    environment:
+      - VERBOSE=True
+      - SUBJECT=dog
+      - URL=nats://nats-streaming:4222
+      - QUEUE_GROUP=stan-sub-group
+      - DURABLE_NAME=stan-sub-durable
+      - CLIENT_ID=cs-subscriber-1
