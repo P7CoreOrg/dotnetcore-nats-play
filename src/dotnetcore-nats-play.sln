@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution", "Solution", "{21139431-A906-43EC-B2D6-13C06CBAD15C}"
 	ProjectSection(SolutionItems) = preProject
+		build.ps1 = build.ps1
 		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publish", "Publish\Publish.csproj", "{5FD27865-285C-487B-AD07-FA4B9B364D9A}"
@@ -23,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stan-sub", "stan-sub\stan-sub.csproj", "{7F609A00-3C65-4825-8B47-8A9D91E34DC9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "stan-pub", "stan-pub\stan-pub.csproj", "{20E895D1-87DC-45CF-9895-8018DAC4951C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "Utils\Utils.csproj", "{7A36A650-F81B-4339-8ED0-013833E6CE0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,6 +134,18 @@ Global
 		{20E895D1-87DC-45CF-9895-8018DAC4951C}.Release|x64.Build.0 = Release|Any CPU
 		{20E895D1-87DC-45CF-9895-8018DAC4951C}.Release|x86.ActiveCfg = Release|Any CPU
 		{20E895D1-87DC-45CF-9895-8018DAC4951C}.Release|x86.Build.0 = Release|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Debug|x64.Build.0 = Debug|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Debug|x86.Build.0 = Debug|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Release|x64.ActiveCfg = Release|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Release|x64.Build.0 = Release|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Release|x86.ActiveCfg = Release|Any CPU
+		{7A36A650-F81B-4339-8ED0-013833E6CE0A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

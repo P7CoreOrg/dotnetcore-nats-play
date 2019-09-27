@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using Utils;
 
 namespace Subscribe
 {
@@ -26,13 +27,13 @@ namespace Subscribe
         Dictionary<string, string> parsedArgs = new Dictionary<string, string>();
 
         int count = 1000000;
-        //string url = Defaults.Url;
-        string url = "nats://nats:4222";
+        string url = Defaults.Url;
         string subject = "foo";
         bool sync = false;
         int received = 0;
-        bool verbose = true;
+        bool verbose = false;
         string creds = null;
+        string queueGroup = null;
 
         public void Run(string[] args)
         {
@@ -100,7 +101,10 @@ namespace Subscribe
                 }
             };
 
-            using (IAsyncSubscription s = c.SubscribeAsync(subject, msgHandler))
+            using (IAsyncSubscription s = (
+                queueGroup == null?
+                c.SubscribeAsync(subject, msgHandler): 
+                c.SubscribeAsync(subject, queueGroup, msgHandler)))
             {
                 // just wait until we are done.
                 lock (testLock)
@@ -115,7 +119,10 @@ namespace Subscribe
 
         private TimeSpan receiveSyncSubscriber(IConnection c)
         {
-            using (ISyncSubscription s = c.SubscribeSync(subject))
+            using (ISyncSubscription s = (
+                queueGroup == null?
+                c.SubscribeSync(subject): 
+                c.SubscribeSync(subject, queueGroup)))
             {
                 Stopwatch sw = new Stopwatch();
 
@@ -150,6 +157,11 @@ namespace Subscribe
         {
             if (args == null)
                 return;
+            bool exists = false;
+            (exists, verbose) = "VERBOSE".GetEnvironmentVariable(false);
+            (exists, subject) = "SUBJECT".GetEnvironmentVariable(subject);
+            (exists, url) = "URL".GetEnvironmentVariable(url);
+            (exists, queueGroup) = "QUEUE_GROUP".GetEnvironmentVariable(queueGroup);
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -186,6 +198,11 @@ namespace Subscribe
 
             if (parsedArgs.ContainsKey("-creds"))
                 creds = parsedArgs["-creds"];
+
+            Console.WriteLine($"VERBOSE={verbose}");
+            Console.WriteLine($"SUBJECT={subject}");
+            Console.WriteLine($"URL={url}");
+            Console.WriteLine($"QUEUE_GROUP={queueGroup}");
         }
 
         private void banner()

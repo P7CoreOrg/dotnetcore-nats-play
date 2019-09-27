@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using System.Threading;
+using Utils;
 
 namespace Replier
 {
@@ -28,12 +29,14 @@ namespace Replier
 
         int count = 20000;
         string url = Defaults.Url;
+        //string url = "nats://nats:4222";
         string subject = "foo";
         bool sync = false;
         int received = 0;
         bool verbose = false;
         Msg replyMsg = new Msg();
         string creds = null;
+        private string queueGroup=null;
 
         public void Run(string[] args)
         {
@@ -109,7 +112,7 @@ namespace Replier
                 }
             };
 
-            using (IAsyncSubscription s = c.SubscribeAsync(subject, msgHandler))
+            using (IAsyncSubscription s = (queueGroup == null?c.SubscribeAsync(subject, msgHandler): c.SubscribeAsync(subject, queueGroup,msgHandler)))
             {
                 // just wait to complete
                 subDone.WaitOne();
@@ -121,7 +124,7 @@ namespace Replier
 
         private TimeSpan receiveSyncSubscriber(IConnection c)
         {
-            using (ISyncSubscription s = c.SubscribeSync(subject))
+            using (ISyncSubscription s = queueGroup==null?c.SubscribeSync(subject): c.SubscribeSync(subject, queueGroup))
             {
                 Stopwatch sw = new Stopwatch();
 
@@ -159,6 +162,12 @@ namespace Replier
         {
             if (args == null)
                 return;
+            bool exists = false;
+            (exists,verbose) = "VERBOSE".GetEnvironmentVariable(false);
+            (exists, subject) = "SUBJECT".GetEnvironmentVariable(subject);
+            (exists, url) = "URL".GetEnvironmentVariable(url);
+            (exists, queueGroup) = "QUEUE_GROUP".GetEnvironmentVariable(queueGroup);
+ 
 
             for (int i = 0; i < args.Length; i++)
             {
@@ -195,6 +204,11 @@ namespace Replier
 
             if (parsedArgs.ContainsKey("-creds"))
                 creds = parsedArgs["-creds"];
+
+            Console.WriteLine($"VERBOSE={verbose}");
+            Console.WriteLine($"SUBJECT={subject}");
+            Console.WriteLine($"URL={url}");
+            Console.WriteLine($"QUEUE_GROUP={queueGroup}");
         }
 
         private void banner()

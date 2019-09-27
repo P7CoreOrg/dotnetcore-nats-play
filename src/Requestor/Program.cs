@@ -27,7 +27,7 @@ namespace Requestor
 
         int count = 20000;
         string url = Defaults.Url;
-        string subject = "foo";
+        string subject = "dog";
         byte[] payload = null;
         string creds = null;
 
@@ -51,7 +51,9 @@ namespace Requestor
 
                 for (int i = 0; i < count; i++)
                 {
-                    c.Request(subject, payload,1000);
+                    var msg = c.Request(subject, payload,1000);
+                    string s = System.Text.Encoding.UTF8.GetString(msg.Data, 0, msg.Data.Length);
+                    Console.WriteLine($"Response:{s}");
                 }
                 c.Flush();
 
