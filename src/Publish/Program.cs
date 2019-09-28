@@ -31,6 +31,8 @@ namespace publish
         string subject = "foo";
         byte[] payload = null;
         string creds = null;
+        private string user;
+        private string password;
 
         public void Run(string[] args)
         {
@@ -45,7 +47,11 @@ namespace publish
             {
                 opts.SetUserCredentials(creds);
             }
-
+            
+            if(user != null && password != null){
+                opts.User = user;
+                opts.Password = password;
+            }
             using (IConnection c = new ConnectionFactory().CreateConnection(opts))
             {
                 sw = Stopwatch.StartNew();
@@ -111,6 +117,10 @@ namespace publish
 
             if (parsedArgs.ContainsKey("-creds"))
                 creds = parsedArgs["-creds"];
+            if (parsedArgs.ContainsKey("-user"))
+                user = parsedArgs["-user"];
+            if (parsedArgs.ContainsKey("-password"))
+                password = parsedArgs["-password"];
         }
 
         private void banner()

@@ -1,1 +1,1 @@
-dotnet run -verbose -subject foo -count 2 -url nats://localhost:4222
+dotnet run -verbose -subject foo -url nats://localhost:4222 -user nats_client -password qbHokT2CbI

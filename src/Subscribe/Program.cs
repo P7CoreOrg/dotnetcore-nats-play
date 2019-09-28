@@ -34,6 +34,8 @@ namespace Subscribe
         bool verbose = false;
         string creds = null;
         string queueGroup = null;
+        private string user;
+        private string password;
 
         public void Run(string[] args)
         {
@@ -45,6 +47,10 @@ namespace Subscribe
             if (creds != null)
             {
                 opts.SetUserCredentials(creds);
+            }
+            if(user != null && password != null){
+                opts.User = user;
+                opts.Password = password;
             }
 
             using (IConnection c = new ConnectionFactory().CreateConnection(opts))
@@ -158,6 +164,9 @@ namespace Subscribe
             if (args == null)
                 return;
             bool exists = false;
+            (exists, user) = "USER".GetEnvironmentVariable(null);
+            (exists, password) = "PASSWORD".GetEnvironmentVariable(null);
+           
             (exists, verbose) = "VERBOSE".GetEnvironmentVariable(false);
             (exists, subject) = "SUBJECT".GetEnvironmentVariable(subject);
             (exists, url) = "URL".GetEnvironmentVariable(url);
@@ -186,7 +195,10 @@ namespace Subscribe
 
             if (parsedArgs.ContainsKey("-url"))
                 url = parsedArgs["-url"];
-
+            if (parsedArgs.ContainsKey("-user"))
+                user = parsedArgs["-user"];
+            if (parsedArgs.ContainsKey("-password"))
+                password = parsedArgs["-password"];
             if (parsedArgs.ContainsKey("-subject"))
                 subject = parsedArgs["-subject"];
 
@@ -203,6 +215,8 @@ namespace Subscribe
             Console.WriteLine($"SUBJECT={subject}");
             Console.WriteLine($"URL={url}");
             Console.WriteLine($"QUEUE_GROUP={queueGroup}");
+            Console.WriteLine($"USER={user}");
+            Console.WriteLine($"PASSWORD={password}");
         }
 
         private void banner()
