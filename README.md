@@ -25,3 +25,8 @@ I have 2 intances of stan-sub running, where each has a different clientID.  The
 
 The examples, which I copied from [nats.net](https://github.com/nats-io/nats.net) assume the standard ports (4222) which you can override.  
 
+## NATS on Kubernetes
+I used bitnami's kubeapps to install their version of NATS, and then I port-forward so that I can test against it.
+```
+kubectl port-forward pods/utter-lumber-nats-0 4222:4222 8222:8222
+```
