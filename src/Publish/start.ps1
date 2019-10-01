@@ -1,1 +1,1 @@
-dotnet run  -subject foo -count 2 -user nats_client -password qbHokT2CbI
+dotnet run  -subject foo -count 2 -user nats_client -password BSSBleoOd9
