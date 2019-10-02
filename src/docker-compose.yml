@@ -1,31 +1,84 @@
 version: '3.7'
+networks: 
+  main: 
+    driver: bridge
+    ipam: 
+      config: 
+        - subnet: 172.25.255.0/24
+      driver: default
+
 services:
-  nats:
+  nats-1:
     image: 'nats:2.1.0'
+    command: 
+      - "-D"
+      - "-p"
+      - "4222"
+      - "-cluster"
+      - "nats://172.25.255.10:6222"
+    expose:
+      - "6222"
+    networks: 
+      main: 
+        ipv4_address: "172.25.255.10"
     ports:
       - "4222:4222"
       - "6222:6222"
       - "8222:8222"
+  nats-2:
+    image: 'nats:2.1.0'
+    command: 
+      - "-D"
+      - "-p"
+      - "4222"
+      - "-cluster"
+      - "nats://172.25.255.20:6222"
+      - "-routes"
+      - "nats://172.25.255.10:6222"
+    expose:
+      - "6222"
+    networks: 
+      main: 
+        ipv4_address: "172.25.255.20"
+
+  nats-3:
+    image: 'nats:2.1.0'
+    command: 
+      - "-D"
+      - "-p"
+      - "4222"
+      - "-cluster"
+      - "nats://172.25.255.30:6222"
+      - "-routes"
+      - "nats://172.25.255.10:6222"
+    expose:
+      - "6222"
+    networks: 
+      main: 
+        ipv4_address: "172.25.255.30"
+
+
   nats-streaming:
     image: 'nats-streaming:0.16.2'
     ports:
       - "4223:4222"
       - "8223:8222"
+
   nats-subscribe:
     image: dotnetcore-nats-play/subscribe
     depends_on:
-      - nats
+      - nats-1
       - nats-streaming
     environment:
       - VERBOSE=True
       - SUBJECT=foo
-      - URL=nats://nats:4222
+      - URL=nats://nats-1:4222
       - QUEUE_GROUP=subscribe-group
 
   nats-replier:
     image: dotnetcore-nats-play/replier
     depends_on:
-      - nats
+      - nats-1
       - nats-streaming
     environment:
       - VERBOSE=True
@@ -36,7 +89,7 @@ services:
   stan-sub-0:
     image: dotnetcore-nats-play/stan-sub
     depends_on:
-      - nats
+      - nats-1
       - nats-streaming
     environment:
       - VERBOSE=True
@@ -49,7 +102,7 @@ services:
   stan-sub-1:
     image: dotnetcore-nats-play/stan-sub
     depends_on:
-      - nats
+      - nats-1
       - nats-streaming
     environment:
       - VERBOSE=True

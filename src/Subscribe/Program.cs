@@ -44,6 +44,12 @@ namespace Subscribe
 
             Options opts = ConnectionFactory.GetDefaultOptions();
             opts.Url = url;
+            opts.ReconnectWait = 1;
+            opts.AllowReconnect = true;
+            // PingInterval is connected to reconnect.
+            opts.PingInterval = 1000;// this defaults to 2 minutes which sould be ok in production.  We don't want a swarm of subscribers killing the nats server.
+
+
             if (creds != null)
             {
                 opts.SetUserCredentials(creds);
